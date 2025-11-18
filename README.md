@@ -1,6 +1,11 @@
 # Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway
 ## 🏗️ VPC Creation (Step-by-Step Guide)
 
+## Architecture Diagram
+
+![Alt Text](image-name.png)
+
+
 This section explains how to create a custom VPC in AWS with public and private subnets, Internet Gateway, NAT Gateway, and proper route tables. This is the networking foundation for Auto Scaling, Load Balancing, and EC2 deployment.
 
 🔹 1. Create a New VPC
@@ -211,7 +216,294 @@ Look for a field labeled Launch template ID.
 
 If a Launch Template was used, the ID (e.g., lt-0abcdef1234567890) will be listed.
 
+## 🔐 Bastion Host (Jump Server) Creation
+
+A Bastion Host is a secure EC2 instance placed in a public subnet that allows you to SSH into private subnet EC2 instances.
+Since private EC2s do not have public IPs, the bastion host acts as the gateway for administrative access.
+
+This improves security by preventing direct public access to backend servers.
+
+1️⃣ Purpose of the Bastion Host
+
+Provides SSH access to private EC2 instances
+
+Lives in a public subnet
+
+Has a public IP
+
+Only accessible from your IP address
+
+Uses the same key pair used for instances in private subnets
+
+🏗️ 2️⃣ Steps to Create the Bastion Host
+🔹 Step 1: Launch a New EC2 Instance
+
+Go to AWS Console → EC2
+
+Click Launch Instance
+
+Enter:
+
+Name: bastion-host
+
+AMI: Amazon Linux 2
+
+Instance Type: t2.micro
+
+This instance will be used to SSH into private servers.
+
+🔹 Step 2: Key Pair
+
+Select an existing key pair or create a new one:
+
+Key Pair Name: prod-keypair
+
+This key will also be used later to access private EC2 instances.
+
+🔹 Step 3: Network Settings
+✔ Choose VPC
+
+Select your VPC:
+prod-vpc
+
+✔ Choose the Public Subnet
+
+Select:
+public-subnet-1 (example: ap-south-1a)
+
+✔ Enable Public IP
+
+Enable Auto-assign Public IP
+(required for SSH from your laptop)
+
+🔹 Step 4: Configure Security Group
+
+Create a new security group for the bastion:
+
+Security Group Name:
+
+bastion-sg
+
+Inbound Rules
+Type	Port	Source	Purpose
+SSH	22	Your IP (recommended)	Secure SSH access
+
+👉 Do NOT allow SSH from “Anywhere (0.0.0.0/0)”
+Use My IP for maximum security.
+
+Outbound Rules
+
+Allow All traffic (default)
+
+🔹 Step 5: Storage
+
+Use default (8GB–10GB).
+
+🔹 Step 6: Launch the Bastion Host
+
+Click Launch Instance and wait for the instance to reach running state.
+
+🔌 3️⃣ Connect to the Bastion Host
+
+Open your terminal and run:
+
+ssh -i prod-keypair.pem ec2-user@<Bastion-Public-IP>
+
+
+Once logged in, you can SSH into private servers using:
+
+ssh -i prod-keypair.pem ec2-user@<Private-EC2-Private-IP>
+
+🔐 4️⃣ Security Best Practices
+
+Allow SSH only from your IP
+
+Never install applications on the bastion host
+
+Use it only for accessing private EC2 servers
+
+Rotate key pairs periodically
+
+Deny all inbound traffic except SSH
+
 If the instance was launched without a Launch Template (e.g., directly from an AMI or using the old Launch Wizard), this field will likely be blank or hyphenated.
+
+
+![Alt Text](image-name.png)
+
+## SSH into the Bastion Host
+
+![Alt Text](image-name.png)
+
+## SSH into the server which is in the private Subnet
+
+![Alt Text](image-name.png)
+
+## 🟩 Target Group Creation (For Auto Scaling Group + Load Balancer)
+
+The Target Group is where your EC2 instances (launched by the Auto Scaling Group) will register and receive traffic from the Load Balancer.
+Follow these steps to create an Application Load Balancer Target Group:
+
+✅ Step 1: Open Target Groups
+
+Go to AWS Console → EC2
+
+On the left menu, scroll down to Load Balancing → Target Groups
+
+Click Create target group
+
+✅ Step 2: Choose Target Type
+
+Select:
+
+Target Type: Instances
+
+This means the load balancer will route traffic directly to EC2 instances.
+
+Click Next.
+
+✅ Step 3: Configure Target Group
+
+Fill in the details:
+
+Field	Value
+Target group name	my-app-tg
+Protocol	HTTP
+Port	80
+VPC	Select your project VPC (example: prod-vpc)
+IP Address Type	IPv4
+✅ Step 4: Health Check Settings
+
+Health checks ensure only healthy instances receive traffic.
+
+Use:
+
+Protocol: HTTP
+
+Path: /
+
+Healthy threshold: 5
+
+Unhealthy threshold: 2
+
+Timeout: 5s
+
+Interval: 10s
+
+(Default values are fine for beginners.)
+
+❗ Do NOT register any targets now
+
+Since the Auto Scaling Group will automatically launch instances and attach them to this Target Group, you must skip manual registration.
+
+Click Create target group.
+
+🎉 Target Group Successfully Created
+
+You now have:
+
+A Target Group ready to receive traffic
+
+Health checks configured
+
+ASG will auto-register instances
+
+Load Balancer will forward all traffic to this Target Group
+
+
+![Alt Text](image-name.png)
+
+## 🟦 Load Balancer Creation (Application Load Balancer)
+
+The Load Balancer distributes incoming traffic across your EC2 instances inside the Auto Scaling Group.
+We will create an Application Load Balancer (ALB) to route HTTP traffic to the Target Group created earlier.
+
+✅ Step 1: Open Load Balancer Page
+
+Go to AWS Console → EC2
+
+On the left menu, select Load Balancers
+
+Click Create load balancer
+
+Choose Application Load Balancer
+
+✅ Step 2: Configure Basic Settings
+
+Fill in the details:
+
+Field	Value
+Name	my-app-alb
+Scheme	Internet-facing
+IP Address Type	IPv4
+Load Balancer Type	Application Load Balancer
+✅ Step 3: Select Network & Subnets
+
+Choose:
+
+VPC: Select your project VPC (example: prod-vpc)
+
+Availability Zones: Select both AZs
+
+Public Subnets:
+
+public-subnet-1
+
+public-subnet-2
+
+These public subnets allow the ALB to be accessible from the internet.
+
+✅ Step 4: Security Groups
+
+Attach a Security Group that allows:
+
+Inbound:
+
+HTTP → port 80
+
+(Optional) HTTPS → port 443
+
+Outbound: All traffic allowed
+
+Example SG name:
+alb-sg
+
+✅ Step 5: Configure Listeners & Forwarding
+
+Under Listeners:
+
+Listener	Protocol	Port	Action
+Listener 1	HTTP	80	Forward to Target Group
+
+Select:
+
+Forward to: my-app-tg (your previously created Target Group)
+
+✅ Step 6: (Optional) Add Tags
+
+Add tags for better project identification:
+
+Example:
+
+Key: Project
+Value: VPC-AutoScaling-ALB
+
+✅ Step 7: Create Load Balancer
+
+Click Create load balancer
+
+AWS will take a minute or two to provision it.
+
+🎉 Load Balancer Successfully Created
+
+At this stage, you have:
+
+✔ An internet-facing Application Load Balancer
+✔ Traffic forwarding to Target Group → Auto Scaling EC2 Instances
+✔ Public subnets for external access
+✔ Health check integration with your ASG instances
+
+![Alt Text](image-name.png)
 
 ![Alt Text](image-name.png)
 
