@@ -1,5 +1,5 @@
 # Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway
-🏗️ VPC Creation (Step-by-Step Guide)
+## 🏗️ VPC Creation (Step-by-Step Guide)
 
 This section explains how to create a custom VPC in AWS with public and private subnets, Internet Gateway, NAT Gateway, and proper route tables. This is the networking foundation for Auto Scaling, Load Balancing, and EC2 deployment.
 
@@ -120,7 +120,7 @@ private-subnet-2
 
 ![Alt Text](image-name.png)
 
-🚀 Launch Template Creation (for Auto Scaling Group)
+## 🚀 Launch Template Creation (for Auto Scaling Group)
 
 The Launch Template defines how your EC2 instances will be launched inside the Auto Scaling Group.
 It includes the AMI, instance type, key pair, security groups, user data, and networking settings.
@@ -188,5 +188,30 @@ Outbound → allow all
 This ensures the instance can receive traffic only through the load balancer.
 
 ![Alt Text](image-name.png)
+![Alt Text](image-name.png)
+
+## 🔎 Checking EC2 Instance Launch Source (Launch Template or Not)
+This guide outlines the steps to programmatically or manually check if an Amazon EC2 instance was launched using a specified Launch Template within your AWS VPC environment, which utilizes private subnets and a NAT Gateway.
+
+I. The Core Method: Checking Instance Metadata
+When an EC2 instance is launched using a Launch Template, the ID of that template is often included in the instance's metadata. This is the most reliable way to verify the launch source.
+
+A. Using the AWS Management Console (Manual Check)
+Navigate to the EC2 Dashboard in the AWS Management Console.
+
+In the navigation panel, choose Instances.
+
+Select the specific EC2 instance you want to check.
+
+In the details pane below, click on the Details tab.
+
+Scroll down to the Launch Details section.
+
+Look for a field labeled Launch template ID.
+
+If a Launch Template was used, the ID (e.g., lt-0abcdef1234567890) will be listed.
+
+If the instance was launched without a Launch Template (e.g., directly from an AMI or using the old Launch Wizard), this field will likely be blank or hyphenated.
+
 ![Alt Text](image-name.png)
 
