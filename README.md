@@ -415,7 +415,7 @@ ASG will auto-register instances
 
 Load Balancer will forward all traffic to this Target Group
 
-
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(133).png)
 
 
 ## 🟦 Load Balancer Creation (Application Load Balancer)
@@ -508,7 +508,7 @@ At this stage, you have:
 ✔ Public subnets for external access
 ✔ Health check integration with your ASG instances
 
-![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(133).png)
+
 
 ![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(134).png)
 
