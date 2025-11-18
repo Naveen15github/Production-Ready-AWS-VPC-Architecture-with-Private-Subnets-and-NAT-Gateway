@@ -216,6 +216,8 @@ Look for a field labeled Launch template ID.
 
 If a Launch Template was used, the ID (e.g., lt-0abcdef1234567890) will be listed.
 
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(129).png)
+
 ## 🔐 Bastion Host (Jump Server) Creation
 
 A Bastion Host is a secure EC2 instance placed in a public subnet that allows you to SSH into private subnet EC2 instances.
@@ -236,6 +238,10 @@ Only accessible from your IP address
 Uses the same key pair used for instances in private subnets
 
 🏗️ 2️⃣ Steps to Create the Bastion Host
+
+
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(130).png)
+
 🔹 Step 1: Launch a New EC2 Instance
 
 Go to AWS Console → EC2
@@ -329,15 +335,14 @@ Deny all inbound traffic except SSH
 If the instance was launched without a Launch Template (e.g., directly from an AMI or using the old Launch Wizard), this field will likely be blank or hyphenated.
 
 
-![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(129).png)
+
 
 ## SSH into the Bastion Host
 
-![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(130).png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(131).png)
 
 ## SSH into the server which is in the private Subnet
-
-![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(131).png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(132).png)
 
 ## 🟩 Target Group Creation (For Auto Scaling Group + Load Balancer)
 
@@ -411,7 +416,7 @@ ASG will auto-register instances
 Load Balancer will forward all traffic to this Target Group
 
 
-![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(132).png)
+
 
 ## 🟦 Load Balancer Creation (Application Load Balancer)
 
