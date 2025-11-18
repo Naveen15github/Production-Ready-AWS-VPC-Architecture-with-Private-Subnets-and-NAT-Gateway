@@ -3,7 +3,7 @@
 
 ## Architecture Diagram
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/vpc-example-private-subnets.png)
 
 
 This section explains how to create a custom VPC in AWS with public and private subnets, Internet Gateway, NAT Gateway, and proper route tables. This is the networking foundation for Auto Scaling, Load Balancing, and EC2 deployment.
@@ -119,11 +119,11 @@ private-subnet-1
 
 private-subnet-2
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(124).png)
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(125).png)
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(126).png)
 
 ## 🚀 Launch Template Creation (for Auto Scaling Group)
 
@@ -192,8 +192,8 @@ Outbound → allow all
 
 This ensures the instance can receive traffic only through the load balancer.
 
-![Alt Text](image-name.png)
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(127).png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(128).png)
 
 ## 🔎 Checking EC2 Instance Launch Source (Launch Template or Not)
 This guide outlines the steps to programmatically or manually check if an Amazon EC2 instance was launched using a specified Launch Template within your AWS VPC environment, which utilizes private subnets and a NAT Gateway.
@@ -329,15 +329,15 @@ Deny all inbound traffic except SSH
 If the instance was launched without a Launch Template (e.g., directly from an AMI or using the old Launch Wizard), this field will likely be blank or hyphenated.
 
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(129).png)
 
 ## SSH into the Bastion Host
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(130).png)
 
 ## SSH into the server which is in the private Subnet
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(131).png)
 
 ## 🟩 Target Group Creation (For Auto Scaling Group + Load Balancer)
 
@@ -411,7 +411,7 @@ ASG will auto-register instances
 Load Balancer will forward all traffic to this Target Group
 
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(132).png)
 
 ## 🟦 Load Balancer Creation (Application Load Balancer)
 
@@ -503,13 +503,13 @@ At this stage, you have:
 ✔ Public subnets for external access
 ✔ Health check integration with your ASG instances
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(133).png)
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(134).png)
 
 ## 🎯 Final Result
 
-![Alt Text](image-name.png)
+![Alt Text](https://github.com/Naveen15github/Production-Ready-AWS-VPC-Architecture-with-Private-Subnets-and-NAT-Gateway/blob/4e0ecce9d124b36fcc3e07a9cbd101b8c90c9992/Screenshot%20(135).png)
 
 By the end of this project, you will have successfully deployed a production-ready, scalable, secure, and highly available AWS architecture, consisting of:
 
